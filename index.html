@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Factory Intelligence Platform — Team Report</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--bg2:#ffffff;--bg3:#f0f2f7;
+  --ink:#0f172a;--ink2:#475569;--ink3:#94a3b8;
+  --azure:#0078d4;--azure-l:#e8f2fc;--azure-d:#005a9e;
+  --teal:#00897b;--teal-l:#e0f2f1;
+  --amber:#f59e0b;--amber-l:#fef3c7;
+  --green:#16a34a;--green-l:#dcfce7;
+  --purple:#7c3aed;--purple-l:#ede9fe;
+  --red:#e11d48;--red-l:#ffe4e6;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --font:'IBM Plex Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --radius:12px;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.65;}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-brand{font-size:14px;font-weight:600;color:var(--azure);font-family:var(--mono);}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-size:13px;color:var(--ink2);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--azure);}
+
+/* HEADER */
+.report-header{
+  background:var(--azure);color:#fff;
+  padding:72px 40px 56px;
+  position:relative;overflow:hidden;
+}
+.report-header::before{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.report-header::after{content:'';position:absolute;right:80px;bottom:-100px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.header-inner{max-width:960px;margin:0 auto;position:relative;}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;margin-bottom:16px;font-family:var(--mono);}
+.report-header h1{font-size:clamp(26px,4vw,46px);font-weight:700;line-height:1.15;letter-spacing:-0.02em;margin-bottom:12px;}
+.report-header h1 span{opacity:0.75;}
+.report-header .sub{font-size:16px;opacity:0.75;max-width:640px;margin-bottom:32px;}
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;}
+.htag{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:5px;padding:4px 12px;font-size:12px;font-family:var(--mono);}
+
+/* CONTAINER */
+.container{max-width:960px;margin:0 auto;padding:0 32px;}
+
+/* SECTION */
+.sec{padding:56px 0;border-bottom:1px solid var(--border);}
+.sec:last-child{border-bottom:none;}
+.sec-label{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--azure);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.sec-title{font-size:24px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;}
+.sec-desc{font-size:14px;color:var(--ink2);max-width:680px;margin-bottom:28px;}
+
+
+
+/* LAYER CARDS */
+.layer{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.layer-head{display:flex;align-items:center;gap:14px;padding:18px 22px;border-bottom:1px solid var(--border);}
+.layer-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;}
+.layer-title{font-size:15px;font-weight:600;}
+.layer-sub{font-size:13px;color:var(--ink2);margin-top:2px;}
+.layer-body{padding:18px 22px;}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+.comp{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.comp-name{font-size:13px;font-weight:600;margin-bottom:4px;}
+.comp-desc{font-size:12px;color:var(--ink2);line-height:1.55;}
+.comp-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.ctag{background:#fff;border:1px solid var(--border2);border-radius:4px;padding:2px 8px;font-size:11px;color:var(--ink3);font-family:var(--mono);}
+
+/* FLOW */
+.flow{display:flex;flex-direction:column;}
+.flow-step{display:flex;align-items:stretch;gap:0;}
+.flow-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.flow-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:20px;}
+.flow-line{flex:1;width:2px;background:var(--border2);}
+.flow-content{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin:6px 0;}
+.flow-content h4{font-size:14px;font-weight:600;margin-bottom:4px;}
+.flow-content p{font-size:13px;color:var(--ink2);}
+
+/* DATA TYPES */
+.dtype-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.dtype{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;align-items:flex-start;gap:12px;}
+.dtype-dot{width:12px;height:12px;border-radius:50%;margin-top:3px;flex-shrink:0;}
+.dtype-body h4{font-size:13px;font-weight:600;margin-bottom:3px;}
+.dtype-body p{font-size:12px;color:var(--ink2);}
+
+/* NOTES */
+.notes{background:var(--amber-l);border:1px solid #fde68a;border-radius:var(--radius);padding:20px 24px;}
+.notes h4{font-size:14px;font-weight:600;color:#92400e;margin-bottom:12px;}
+.note-item{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start;}
+.note-item:last-child{margin-bottom:0;}
+.check{color:#16a34a;font-size:15px;flex-shrink:0;margin-top:1px;}
+.note-item p{font-size:13px;color:#78350f;}
+
+/* DIGITAL TWIN */
+.dt-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.dt-box{background:var(--purple-l);border:1px solid #c4b5fd;border-radius:var(--radius);padding:20px 24px;}
+.dt-box h4{font-size:14px;font-weight:600;color:#4c1d95;margin-bottom:8px;}
+.dt-list{list-style:none;padding:0;}
+.dt-list li{font-size:13px;color:#5b21b6;padding:3px 0;padding-left:16px;position:relative;}
+.dt-list li::before{content:'→';position:absolute;left:0;color:#7c3aed;}
+
+/* TEAM GRID */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.member-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.card-header{padding:20px 22px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;}
+.avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;}
+.member-info h3{font-size:17px;font-weight:700;margin-bottom:4px;}
+.role-badge{display:inline-block;border-radius:5px;padding:2px 10px;font-size:11px;font-weight:600;font-family:var(--mono);letter-spacing:0.04em;}
+.card-body{padding:16px 22px 20px;}
+.task-list{list-style:none;padding:0;}
+.task-list li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--ink2);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.5;}
+.task-list li:last-child{border-bottom:none;}
+.task-dot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+
+
+.member-summary{font-size:12px;color:var(--ink2);margin-top:12px;line-height:1.6;}
+.member-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+.meta-pill{background:var(--bg3);border:1px solid var(--border);border-radius:999px;padding:3px 9px;font-size:10px;color:var(--ink2);font-family:var(--mono);}
+.deliverables{margin-top:14px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;}
+.deliverables-title{font-size:11px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-family:var(--mono);}
+.deliverables p{font-size:12px;color:var(--ink2);line-height:1.55;}
+
+/* PROJECT DELIVERABLE CARDS */
+.deliverable-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .2s ease, box-shadow .2s ease;}
+.deliverable-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(15,23,42,.10);}
+.deliverable-card a{display:block;text-decoration:none;color:inherit;}
+.deliverable-img{width:100%;height:170px;object-fit:cover;display:block;border-bottom:1px solid var(--border);background:var(--bg3);}
+.deliverable-content{padding:15px 16px 18px;}
+.deliverable-content .comp-name{font-size:14px;margin-bottom:5px;}
+.deliverable-content .comp-desc{font-size:12px;}
+.deliverable-owner{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--ink3);border:1px solid var(--border2);border-radius:999px;padding:2px 8px;background:#fff;}
+.deliverable-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 14px 14px;}
+.gallery-item{display:block;text-decoration:none;color:inherit;background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
+.gallery-item:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(15,23,42,.08);}
+.gallery-item img{width:100%;height:108px;object-fit:cover;display:block;border-bottom:1px solid var(--border);}
+.gallery-caption{padding:7px 8px;font-size:10.5px;color:var(--ink2);font-family:var(--mono);line-height:1.35;}
+.deliverable-note{font-size:11px;color:var(--ink3);margin-top:10px;line-height:1.45;}
+@media(max-width:600px){
+  .deliverable-gallery{grid-template-columns:1fr;}
+  .gallery-item img{height:150px;}
+}
+
+/* DEMO VIDEO CARD */
+.video-card{
+  max-width:900px;
+  margin:auto;
+}
+.video-card .deliverable-img{
+  height: 600px;
+}
+.video-card .deliverable-content{
+  text-align:center;
+  padding:24px;
+}
+.video-card .comp-name{
+  font-size:22px;
+}
+@media(max-width:600px){
+  .video-card .deliverable-img{height:240px;}
+}
+
+/* FOOTER */
+.report-footer{background:var(--ink);color:#94a3b8;padding:40px;text-align:center;font-size:13px;}
+.report-footer strong{color:#e2e8f0;}
+.footer-stack{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px;}
+.ftech{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:5px;padding:3px 12px;font-size:12px;font-family:var(--mono);color:#94a3b8;}
+
+
+@media(max-width:600px){
+  nav{padding:0 16px;} .nav-links{gap:16px;}
+  .report-header{padding:48px 20px 40px;}
+  .container{padding:0 16px;}
+  .dt-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">SmartFactory · TAS</div>
+  <div class="nav-links">
+<a href="#architecture">Architecture</a>
+<a href="#deliverables">Deliverables</a>
+<a href="#demo">Demo</a>
+<a href="#team">Team</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="report-header">
+  <div class="header-inner">
+    <div class="eyebrow">Technical Report · 2025</div>
+    <h1>Azure End-to-End Architecture<br><span>IoT · Agentic AI · Analytics</span></h1>
+    <p class="sub">Odoo Integration · Real-Time Pipeline · Digital Twin · Power BI DirectQuery — Simplified per Instructor Feedback</p>
+    <div class="tag-row">
+      <span class="htag">Azure IoT Hub</span>
+      <span class="htag">Stream Analytics</span>
+      <span class="htag">Azure SQL</span>
+      <span class="htag">Azure Function</span>
+      <span class="htag">MongoDB Atlas</span>
+      <span class="htag">n8n</span>
+      <span class="htag">LINE API</span>
+      <span class="htag">Power BI</span>
+      <span class="htag">Power Apps</span>
+      <span class="htag">Odoo ERP</span>
+      <span class="htag">Digital Twin</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+
+
+  <!-- ARCHITECTURE -->
+  <div class="sec" id="architecture">
+    <div class="sec-label">Architecture</div>
+    <div class="sec-title">Five-Layer System Design</div>
+    <p class="sec-desc">Our platform is structured into five distinct layers — from physical machine signals on the factory floor through to cloud-based analytics and AI-driven automation.</p>
+
+    <!-- L1 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-num" style="background:var(--azure-l);color:var(--azure-d);">1</div>
+        <div><div class="layer-title">OT / Edge Layer</div><div class="layer-sub">Operational data sources — machine-level signal capture</div></div>
+      </div>
+      <div class="layer-body">
+        <div class="comp-grid">
+          <div class="comp"><div class="comp-name">PLC / TAS Controller</div><div class="comp-desc">Industrial controller generating real-time sensor signals on the factory floor.</div><div class="comp-tags"><span class="ctag">OPC-UA</span><span class="ctag">MQTT</span></div></div>
+          <div class="comp"><div class="comp-name">Kepware OPC-UA Server</div><div class="comp-desc">Translates machine OPC-UA protocol to MQTT for cloud-compatible messaging.</div><div class="comp-tags"><span class="ctag">OPC-UA</span><span class="ctag">Gateway</span></div></div>
+          <div class="comp"><div class="comp-name">Power Apps + Odoo ERP</div><div class="comp-desc">Connects via Power Platform Connector to Odoo ERP for customer order simulation.</div><div class="comp-tags"><span class="ctag">Power Apps</span><span class="ctag">Odoo ERP</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L2 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-num" style="background:var(--teal-l);color:var(--teal);">2</div>
+        <div><div class="layer-title">Integration & Ingestion Layer</div><div class="layer-sub">Azure IoT Hub + Stream Analytics</div></div>
+      </div>
+      <div class="layer-body">
+        <div class="comp-grid">
+          <div class="comp"><div class="comp-name">Azure IoT Hub</div><div class="comp-desc">Receives MQTT telemetry from Kepware and routes it into the processing pipeline.</div><div class="comp-tags"><span class="ctag">IoT Hub</span><span class="ctag">Cloud Ingestion</span></div></div>
+          <div class="comp"><div class="comp-name">Azure Stream Analytics</div><div class="comp-desc">Job: tas-stream-job. Flattens nested arrays into field_id / field_value rows in real time.</div><div class="comp-tags"><span class="ctag">Stream Processing</span><span class="ctag">Real-Time</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L3 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-num" style="background:var(--amber-l);color:#92400e;">3</div>
+        <div><div class="layer-title">Storage & Processing Layer</div><div class="layer-sub">Bronze (Azure Blob) → ETL → Silver (Azure SQL) — every 5 seconds</div></div>
+      </div>
+      <div class="layer-body">
+        <div class="comp-grid">
+          <div class="comp"><div class="comp-name">Bronze Layer — Azure Blob</div><div class="comp-desc">Raw landing zone for unprocessed telemetry data from Stream Analytics.</div><div class="comp-tags"><span class="ctag">Blob Storage</span><span class="ctag">Raw Data</span></div></div>
+          <div class="comp"><div class="comp-name">ETL / Data Transformation</div><div class="comp-desc">Transforms flattened arrays into 6-row BayStatus_Realtime format for SQL storage.</div><div class="comp-tags"><span class="ctag">ETL</span><span class="ctag">Transform</span></div></div>
+          <div class="comp"><div class="comp-name">Silver Layer — Azure SQL</div><div class="comp-desc">Structured, clean data. Timer Function runs every 5 seconds via Timer/Trigger.</div><div class="comp-tags"><span class="ctag">Azure SQL</span><span class="ctag">Silver</span></div></div>
+          <div class="comp"><div class="comp-name">Azure Function</div><div class="comp-desc">Serverless trigger connecting Silver Layer to downstream analytics and AI systems.</div><div class="comp-tags"><span class="ctag">Serverless</span><span class="ctag">Timer Trigger</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L4 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-num" style="background:var(--green-l);color:#14532d;">4</div>
+        <div><div class="layer-title">Automation & Notification (Agentic)</div><div class="layer-sub">MongoDB Atlas → n8n → LINE Messaging API</div></div>
+      </div>
+      <div class="layer-body">
+        <div class="comp-grid">
+          <div class="comp"><div class="comp-name">MongoDB Atlas</div><div class="comp-desc">Document store for automation data. Supplies structured payloads to n8n workflows.</div><div class="comp-tags"><span class="ctag">MongoDB</span><span class="ctag">Document DB</span></div></div>
+          <div class="comp"><div class="comp-name">n8n Automation</div><div class="comp-desc">Deployed on Azure VM. Orchestrates AI agent logic, Q&A, status requests, and alerts.</div><div class="comp-tags"><span class="ctag">n8n</span><span class="ctag">Azure VM</span><span class="ctag">AI Agent</span></div></div>
+          <div class="comp"><div class="comp-name">LINE Messaging API</div><div class="comp-desc">Bi-directional channel — sends alerts and receives user commands from managers.</div><div class="comp-tags"><span class="ctag">LINE API</span><span class="ctag">Notifications</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L5 -->
+    <div class="layer">
+      <div class="layer-head">
+        <div class="layer-num" style="background:var(--purple-l);color:#4c1d95;">5</div>
+        <div><div class="layer-title">Analytics Layer</div><div class="layer-sub">Power BI DirectQuery — connects directly to Silver Layer (Azure SQL)</div></div>
+      </div>
+      <div class="layer-body">
+        <div class="comp-grid">
+          <div class="comp"><div class="comp-name">Power BI Dashboard</div><div class="comp-desc">Connects directly to Azure SQL via DirectQuery for near real-time KPI reporting. No import refresh — queries run live against the database.</div><div class="comp-tags"><span class="ctag">Power BI</span><span class="ctag">DirectQuery</span><span class="ctag">Real-Time</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL TWIN -->
+  <div class="sec">
+    <div class="sec-label">Reference Model</div>
+    <div class="sec-title">Digital Twin</div>
+    <p class="sec-desc">The Digital Twin is decoupled from n8n and Power BI per instructor feedback. It serves as a visualization and simulation reference layer only.</p>
+    <div class="dt-grid">
+      <div class="dt-box">
+        <h4>What it contains</h4>
+        <ul class="dt-list">
+          <li>3D model of Bay &amp; Equipment</li>
+          <li>Static information (tag_name)</li>
+          <li>Bay layout, capacity, connections</li>
+          <li>Station (Bay) static information</li>
+          <li>Reference to Odoo EPP Master Data</li>
+        </ul>
+      </div>
+      <div class="dt-box">
+        <h4>Purpose</h4>
+        <ul class="dt-list">
+          <li>Visualize &amp; simulate operations</li>
+          <li>Decision support (future use)</li>
+          <li>Not connected to n8n or Power BI</li>
+          <li>Designed using DTDL standard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA FLOW -->
+  <div class="sec">
+    <div class="sec-label">Data Flow</div>
+    <div class="sec-title">End-to-End Pipeline</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-left"><div class="flow-dot" style="background:var(--azure);"></div><div class="flow-line"></div></div><div class="flow-content"><h4>PLC → Kepware → Azure IoT Hub</h4><p>Machine signals travel OPC-UA → MQTT → cloud ingestion. The real-time pipeline starts here.</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-dot" style="background:var(--teal);"></div><div class="flow-line"></div></div><div class="flow-content"><h4>Stream Analytics flattens arrays</h4><p>tas-stream-job transforms nested array payloads into flat field_id / field_value rows.</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-dot" style="background:var(--amber);"></div><div class="flow-line"></div></div><div class="flow-content"><h4>Bronze → ETL → Silver (every 5 seconds)</h4><p>Raw data lands in Blob Storage. ETL Timer Function transforms to 6-row BayStatus_Realtime format and writes to Azure SQL every 5 seconds.</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-dot" style="background:var(--green);"></div><div class="flow-line"></div></div><div class="flow-content"><h4>Azure Function → MongoDB → n8n → LINE</h4><p>Events trigger serverless functions. Data flows into MongoDB for n8n to orchestrate AI agent responses via LINE messaging.</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-dot" style="background:var(--purple);"></div></div><div class="flow-content"><h4>Power BI DirectQuery on Silver Layer</h4><p>Dashboard queries Azure SQL directly — no scheduled refresh. Near real-time analytics for management.</p></div></div>
+    </div>
+  </div>
+
+  <!-- DATA TYPES -->
+  <div class="sec">
+    <div class="sec-label">Data Types</div>
+    <div class="sec-title">Signal Classification</div>
+    <div class="dtype-grid">
+      <div class="dtype"><div class="dtype-dot" style="background:var(--azure);"></div><div class="dtype-body"><h4>Real-Time (Telemetry)</h4><p>Live machine readings from PLC via IoT Hub and Stream Analytics.</p></div></div>
+      <div class="dtype"><div class="dtype-dot" style="background:var(--green);"></div><div class="dtype-body"><h4>Transactional (ERP / Ops)</h4><p>Order and operational records from Odoo ERP via Power Apps connector.</p></div></div>
+      <div class="dtype"><div class="dtype-dot" style="background:var(--red);"></div><div class="dtype-body"><h4>Alert / Notification</h4><p>Event-driven messages triggered by n8n and delivered via LINE API.</p></div></div>
+      <div class="dtype"><div class="dtype-dot" style="background:var(--amber);"></div><div class="dtype-body"><h4>User Input / Command</h4><p>Manager queries and commands received through LINE back into the n8n agent.</p></div></div>
+    </div>
+  </div>
+
+  <!-- INSTRUCTOR NOTES -->
+  <div class="sec">
+    <div class="sec-label">Instructor Feedback</div>
+    <div class="sec-title">Key Design Decisions</div>
+    <div class="notes">
+      <h4>📋 Confirmed per Instructor Review</h4>
+      <div class="note-item"><span class="check">✓</span><p>Real-time pipeline: Kepware → IoT Hub → Stream Analytics → Storage &amp; Processing</p></div>
+      <div class="note-item"><span class="check">✓</span><p>Flatten arrays early using Stream Analytics to field_id / field_value format</p></div>
+      <div class="note-item"><span class="check">✓</span><p>ETL function runs every 5 seconds with Timer/Trigger for near real-time updates</p></div>
+      <div class="note-item"><span class="check">✓</span><p>Transform to 6-row format (BayStatus_Realtime) for structured SQL storage</p></div>
+      <div class="note-item"><span class="check">✓</span><p>Power BI uses DirectQuery for near real-time dashboard — no import refresh needed</p></div>
+      <div class="note-item"><span class="check">✓</span><p>Digital Twin is decoupled from n8n / Power BI — reference model only</p></div>
+    </div>
+  </div>
+
+
+  <!-- PROJECT DELIVERABLES -->
+  <div class="sec" id="deliverables">
+    <div class="sec-label">Project Outputs</div>
+    <div class="sec-title">Key Deliverables</div>
+    <p class="sec-desc">These are the tangible outputs produced during the TAS project. Deliverables with multiple screenshots are grouped as galleries so reviewers can open each diagram or dashboard in full size.</p>
+
+    <div class="comp-grid">
+
+      <div class="deliverable-card">
+        <div class="deliverable-content">
+          <div class="comp-name">IDEF0 Process Models</div>
+          <div class="comp-desc">Business process decomposition covering the overall TAS workflow and role-based views.</div>
+          <span class="deliverable-owner">Owner: Napatsorn Amadmuntree</span>
+          <p class="deliverable-note">Click any image to view the full diagram.</p>
+        </div>
+        <div class="deliverable-gallery">
+          <a class="gallery-item" href="images/IDEF0context.png" target="_blank">
+            <img src="images/IDEF0context.png" alt="IDEF0 Context Diagram">
+            <div class="gallery-caption">A0 Context</div>
+          </a>
+          <a class="gallery-item" href="images/5.jpg" target="_blank">
+            <img src="images/5.jpg" alt="IDEF0 Driver Perspective">
+            <div class="gallery-caption">Driver View</div>
+          </a>
+          <a class="gallery-item" href="images/6.jpg" target="_blank">
+            <img src="images/6.jpg" alt="IDEF0 Operator Perspective">
+            <div class="gallery-caption">Operator View</div>
+          </a>
+          <a class="gallery-item" href="images/7.jpg" target="_blank">
+            <img src="images/7.jpg" alt="IDEF0 Sales Perspective">
+            <div class="gallery-caption">Sales View</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/INC372 Role.jpg" target="_blank">
+          <img src="images/INC372 Role.jpg" class="deliverable-img" alt="Organization Chart">
+          <div class="deliverable-content">
+            <div class="comp-name">Organization Chart</div>
+            <div class="comp-desc">Project team structure, roles, and responsibility assignment.</div>
+            <span class="deliverable-owner">Owner: Napatsorn Amadmuntree</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/V2.4.png" target="_blank">
+          <img src="images/V2.4.png" class="deliverable-img" alt="Data Architecture">
+          <div class="deliverable-content">
+            <div class="comp-name">Data Architecture</div>
+            <div class="comp-desc">Azure-based data flow covering ERP, IoT, storage, and analytics.</div>
+            <span class="deliverable-owner">Owner: Sirawit Hengroong</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/automation Architecture.png" target="_blank">
+          <img src="images/automation Architecture.png" class="deliverable-img" alt="Automation Architecture">
+          <div class="deliverable-content">
+            <div class="comp-name">Automation Architecture</div>
+            <div class="comp-desc">PLC, OPC-UA, MQTT, sensors, and edge integration design.</div>
+            <span class="deliverable-owner">Owner: Petidarat Vagost</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/dtdl.png" target="_blank">
+          <img src="images/dtdl.png" class="deliverable-img" alt="Digital Twin Design">
+          <div class="deliverable-content">
+            <div class="comp-name">Digital Twin Design</div>
+            <div class="comp-desc">DTDL models, equipment hierarchy, telemetry, and relationships.</div>
+            <span class="deliverable-owner">Owner: Napatsorn Amadmuntree</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="deliverable-card">
+        <div class="deliverable-content">
+          <div class="comp-name">Power BI Dashboards</div>
+          <div class="comp-desc">Dashboard outputs for operational monitoring, financial KPI tracking, and performance analysis.</div>
+          <span class="deliverable-owner">Owner: Phurinut Soayyala</span>
+          <p class="deliverable-note">Replace these placeholders with exported Power BI screenshots using the same filenames.</p>
+        </div>
+        <div class="deliverable-gallery">
+          <a class="gallery-item" href="images/IMG_0903.jpg" target="_blank">
+            <img src="images/IMG_0903.jpg" alt="Operational KPI Dashboard">
+            <div class="gallery-caption">Operation KPI</div>
+          </a>
+          <a class="gallery-item" href="images/IMG_0908.jpg" target="_blank">
+            <img src="images/IMG_0908.jpg" alt="Financial KPI Dashboard">
+            <div class="gallery-caption">Financial KPI</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/odooERP.png" target="_blank">
+          <img src="images/odooERP.png" class="deliverable-img" alt="Odoo ERP Implementation">
+          <div class="deliverable-content">
+            <div class="comp-name">Odoo ERP Implementation</div>
+            <div class="comp-desc">ERP configuration, master data, transaction records, and finance sheets.</div>
+            <span class="deliverable-owner">Owner: Kongphop Suranun</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/ML.jpg" target="_blank">
+          <img src="images/ML.jpg" class="deliverable-img" alt="Machine Learning Model">
+          <div class="deliverable-content">
+            <div class="comp-name">Machine Learning Model</div>
+            <div class="comp-desc">Forecasting model for financial and operational prediction analysis.</div>
+            <span class="deliverable-owner">Owner: Petidarat Vagost</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="deliverable-card">
+        <a href="images/n8n.png" target="_blank">
+          <img src="images/n8n.png" class="deliverable-img" alt="AI Virtual Operator">
+          <div class="deliverable-content">
+            <div class="comp-name">AI Virtual Operator</div>
+            <div class="comp-desc">Agentic AI connected to Digital Twin, datasheets, and operational data.</div>
+            <span class="deliverable-owner">Owner: Napatsorn Amadmuntree</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- DEMONSTRATION VIDEO -->
+
+<div class="sec" id="demo">
+
+  <div class="sec-label">
+    Demonstration
+  </div>
+
+  <div class="sec-title">
+    System Demonstration Video
+  </div>
+
+  <p class="sec-desc">
+    Complete demonstration of the Terminal Automation System (TAS),
+    including Odoo ERP, Azure Data Platform, Digital Twin,
+    Power BI Dashboard, AI Virtual Operator, and LINE Chatbot.
+  </p>
+
+  <div class="deliverable-card video-card">
+
+    <a href="https://youtu.be/CvQtOOONlM4"
+       target="_blank">
+
+      <img src="images/TAS cover.png"
+           class="deliverable-img"
+           alt="TAS Project Video">
+
+      <div class="deliverable-content">
+
+        <div class="comp-name">
+          ▶ Watch Full Demonstration
+        </div>
+
+        <div class="comp-desc">
+          Full project walkthrough and system demonstration.
+        </div>
+
+        <span class="deliverable-owner">
+          Duration: 26 Minutes
+        </span>
+
+      </div>
+
+    </a>
+
+  </div>
+
+</div>
+
+  <!-- TEAM -->
+  <div class="sec" id="team">
+    <div class="sec-label">The Team</div>
+    <div class="sec-title">Team Members &amp; Contributions</div>
+    <p class="sec-desc">Our multidisciplinary team combines expertise in data engineering, industrial automation, machine learning, business intelligence, ERP finance, and artificial intelligence to deliver an end-to-end Terminal Automation System (TAS) solution.</p>
+
+    <div class="team-grid">
+
+      <div class="member-card">
+        <div class="card-header">
+          <div class="avatar" style="background:var(--azure-l);color:var(--azure);">GN</div>
+          <div class="member-info">
+            <h3>Sirawit Hengroong</h3>
+            <span class="role-badge" style="background:var(--azure-l);color:var(--azure);">Data Engineer</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="member-summary">Designed and implemented the enterprise data platform supporting operational, transactional, and analytical workloads across the TAS ecosystem.</p>
+          <div class="member-meta">
+            <span class="meta-pill">Azure</span><span class="meta-pill">SQL</span><span class="meta-pill">Data Pipeline</span><span class="meta-pill">Power Apps</span>
+          </div>
+          <ul class="task-list" style="margin-top:14px;">
+            <li><div class="task-dot" style="background:var(--azure);"></div>Data architecture design</li>
+            <li><div class="task-dot" style="background:var(--azure);"></div>Database and ER diagram development</li>
+            <li><div class="task-dot" style="background:var(--azure);"></div>Azure data platform implementation</li>
+            <li><div class="task-dot" style="background:var(--azure);"></div>ERP, IoT, and cloud data integration</li>
+            <li><div class="task-dot" style="background:var(--azure);"></div>Data pipeline development</li>
+            <li><div class="task-dot" style="background:var(--azure);"></div>Power Apps development</li>
+          </ul>
+          <div class="deliverables"><div class="deliverables-title">Deliverables</div><p>Data Architecture, Database Schema, Azure Data Platform, Data Pipelines, Power Apps Forms</p></div>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="card-header">
+          <div class="avatar" style="background:var(--teal-l);color:var(--teal);">PT</div>
+          <div class="member-info">
+            <h3>Petidarat Vagost</h3>
+            <span class="role-badge" style="background:var(--teal-l);color:var(--teal);">Automation &amp; ML Engineer</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="member-summary">Designed industrial automation systems and developed machine learning models for operational and financial forecasting.</p>
+          <div class="member-meta">
+            <span class="meta-pill">PLC</span><span class="meta-pill">OPC-UA</span><span class="meta-pill">MQTT</span><span class="meta-pill">ML Forecasting</span>
+          </div>
+          <ul class="task-list" style="margin-top:14px;">
+            <li><div class="task-dot" style="background:var(--teal);"></div>Automation architecture design</li>
+            <li><div class="task-dot" style="background:var(--teal);"></div>PLC tag mapping and I/O database</li>
+            <li><div class="task-dot" style="background:var(--teal);"></div>OPC-UA and MQTT configuration</li>
+            <li><div class="task-dot" style="background:var(--teal);"></div>PLC, sensor, and edge device integration</li>
+            <li><div class="task-dot" style="background:var(--teal);"></div>Machine learning model development</li>
+            <li><div class="task-dot" style="background:var(--teal);"></div>Forecasting and predictive analytics</li>
+          </ul>
+          <div class="deliverables"><div class="deliverables-title">Deliverables</div><p>Automation Architecture, PLC Tag Database, Edge Integration, ML Forecasting Model, Predictive Reports</p></div>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="card-header">
+          <div class="avatar" style="background:var(--amber-l);color:#92400e;">BK</div>
+          <div class="member-info">
+            <h3>Phurinut Soayyala</h3>
+            <span class="role-badge" style="background:var(--amber-l);color:#92400e;">Data Analyst &amp; BI Developer</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="member-summary">Transformed operational data into actionable business insights through data preparation, KPI development, and dashboard analytics.</p>
+          <div class="member-meta">
+            <span class="meta-pill">Power BI</span><span class="meta-pill">Power Query</span><span class="meta-pill">ETL</span><span class="meta-pill">AnyLogic</span>
+          </div>
+          <ul class="task-list" style="margin-top:14px;">
+            <li><div class="task-dot" style="background:var(--amber);"></div>Financial KPI development</li>
+            <li><div class="task-dot" style="background:var(--amber);"></div>Operational KPI development</li>
+            <li><div class="task-dot" style="background:var(--amber);"></div>Power Query data cleaning and transformation</li>
+            <li><div class="task-dot" style="background:var(--amber);"></div>ETL workflow development</li>
+            <li><div class="task-dot" style="background:var(--amber);"></div>Power BI dashboard development</li>
+            <li><div class="task-dot" style="background:var(--amber);"></div>AnyLogic simulation analysis</li>
+          </ul>
+          <div class="deliverables"><div class="deliverables-title">Deliverables</div><p>KPI Frameworks, ETL Workflows, Power BI Dashboards, Simulation Analysis, BI Reports</p></div>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="card-header">
+          <div class="avatar" style="background:var(--purple-l);color:var(--purple);">KG</div>
+          <div class="member-info">
+            <h3>Kongphop Suranun</h3>
+            <span class="role-badge" style="background:var(--purple-l);color:var(--purple);">ERP &amp; Financial Analyst</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="member-summary">Managed ERP data and financial reporting processes to support business performance monitoring and decision making.</p>
+          <div class="member-meta">
+            <span class="meta-pill">Odoo</span><span class="meta-pill">Finance Sheet</span><span class="meta-pill">Reporting</span><span class="meta-pill">Cost Analysis</span>
+          </div>
+          <ul class="task-list" style="margin-top:14px;">
+            <li><div class="task-dot" style="background:var(--purple);"></div>Odoo ERP configuration</li>
+            <li><div class="task-dot" style="background:var(--purple);"></div>Master data management</li>
+            <li><div class="task-dot" style="background:var(--purple);"></div>Finance sheet development</li>
+            <li><div class="task-dot" style="background:var(--purple);"></div>Financial reporting</li>
+            <li><div class="task-dot" style="background:var(--purple);"></div>Revenue and cost analysis</li>
+          </ul>
+          <div class="deliverables"><div class="deliverables-title">Deliverables</div><p>Odoo ERP Configuration, Finance Sheets, Financial Reports, Business Performance Summary</p></div>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="card-header">
+          <div class="avatar" style="background:var(--red-l);color:var(--red);">MH</div>
+          <div class="member-info">
+            <h3>Napatsorn Amadmuntree</h3>
+            <span class="role-badge" style="background:var(--red-l);color:var(--red);">PM &amp; AI Engineer</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="member-summary">Led project coordination and developed AI-driven solutions including Digital Twin models, retrieval systems, and intelligent virtual operator capabilities.</p>
+          <div class="member-meta">
+            <span class="meta-pill">DTDL</span><span class="meta-pill">Digital Twin</span><span class="meta-pill">AI Agent</span><span class="meta-pill">n8n</span>
+          </div>
+          <ul class="task-list" style="margin-top:14px;">
+            <li><div class="task-dot" style="background:var(--red);"></div>Project planning and coordination</li>
+            <li><div class="task-dot" style="background:var(--red);"></div>IDEF0 process modeling</li>
+            <li><div class="task-dot" style="background:var(--red);"></div>Digital Twin design using DTDL</li>
+            <li><div class="task-dot" style="background:var(--red);"></div>AI agent development for Q&amp;A and retrieval</li>
+            <li><div class="task-dot" style="background:var(--red);"></div>MongoDB Vector Search integration</li>
+            <li><div class="task-dot" style="background:var(--red);"></div>Prompt engineering and prompt testing</li>
+            <li><div class="task-dot" style="background:var(--red);"></div>Agentic AI and chatbot development</li>
+          </ul>
+          <div class="deliverables"><div class="deliverables-title">Deliverables</div><p>Digital Twin Model, AI Agent, Prompt Test Framework, Agentic Chatbot, Project Documentation</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <strong>Terminal Automation System</strong><br>
+  <span style="display:block;margin-top:4px;color:#64748b;">Azure End-to-End Architecture · Odoo Integration · IoT · Agentic AI · Analytics</span>
+  <div class="footer-stack">
+    <span class="ftech">PLC / Kepware</span>
+    <span class="ftech">Azure IoT Hub</span>
+    <span class="ftech">Stream Analytics</span>
+    <span class="ftech">Azure Blob</span>
+    <span class="ftech">Azure SQL</span>
+    <span class="ftech">Azure Function</span>
+    <span class="ftech">MongoDB Atlas</span>
+    <span class="ftech">n8n</span>
+    <span class="ftech">LINE API</span>
+    <span class="ftech">Digital Twin</span>
+    <span class="ftech">Power BI</span>
+    <span class="ftech">Power Apps</span>
+    <span class="ftech">Odoo ERP</span>
+  </div>
+</div>
+
+</body>
+</html>
